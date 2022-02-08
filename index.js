@@ -98,10 +98,10 @@ app.post("/edited", (req, res) => {
   tasksArr.push(newEditedTask);
 });
 
-// app.get("/", (req, res) => {
-//   // res.send("WORKING");
-//   res.render("index");
-// });
+app.get("/", (req, res) => {
+  // res.send("WORKING");
+  res.render("index");
+});
 
 //posting to the sever , body of post(from user/client) passing values if it is matches request body
 
