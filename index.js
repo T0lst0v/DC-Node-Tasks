@@ -105,4 +105,4 @@ app.get("/", (req, res) => {
 
 //posting to the sever , body of post(from user/client) passing values if it is matches request body
 
-app.listen(3000, () => console.log("server is running"));
+app.listen(PORT, () => console.log("server is running"));
