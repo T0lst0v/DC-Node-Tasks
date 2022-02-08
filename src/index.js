@@ -9,12 +9,10 @@ const app = express(); // returns a function that contains other functions
 const cors = require("cors");
 const session = require("express-session");
 
-// console.log(path.join(__dirname, "../../client"));
-// const indexPath = path.join(__dirname, "../../client");
-// console.log(indexPath);
 //initialize the session
-const indexPath = path.join(__dirname, "../client");
-console.log(indexPath);
+const indexPath = path.join(__dirname, "../public");
+
+app.set("view engine", "hbs");
 app.use(express.static(indexPath));
 app.use(cors());
 app.use(express.json());
@@ -104,10 +102,10 @@ app.post("/edited", (req, res) => {
   tasksArr.push(newEditedTask);
 });
 
-// app.get("/test", (req, res) => {
-//   // res.send("hello");
-//   res.render("test");
-// });
+app.get("/", (req, res) => {
+  // res.send("hello");
+  res.render("test");
+});
 
 //posting to the sever , body of post(from user/client) passing values if it is matches request body
 
