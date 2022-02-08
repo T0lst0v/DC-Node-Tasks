@@ -4,11 +4,13 @@ const app = express();
 const cors = require("cors");
 const session = require("express-session");
 
-//initialize the session
+const PORT = process.env.PORT || 8080;
+
 const indexPath = path.join(__dirname, "public");
 console.log(indexPath);
 app.set("view engine", "hbs");
 app.use(express.static(indexPath));
+
 app.use(cors());
 app.use(express.json());
 app.use(
@@ -103,5 +105,4 @@ app.get("/", (req, res) => {
 
 //posting to the sever , body of post(from user/client) passing values if it is matches request body
 
-// start the server on port 3000 (localhost:3000) 2nd argument(fn) is optional
 app.listen(3000, () => console.log("server is running"));
