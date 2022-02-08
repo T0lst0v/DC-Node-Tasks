@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400&family=The+Nautigal&display=swap"
+            rel="stylesheet">
+
+        <link rel="stylesheet" href="css.css">
+        <title>Tasks</title>
+    </head>
+
+    <body>
+        <nav id="header">
+            <form id="login" method="POST" action="/login" id="login">
+                <input type="text" name="username" placeholder="user name">
+                <input type="text" name="password" placeholder="password">
+                <button id="btnLogin">login</button>
+
+            </form>
+        </nav>
+        <div class="body">
+            <h1>Task list</h1>
+            <input type="text" placeholder="New Task" id="taskTxt">
+            <div id="selectorWrap">
+                <label class=prioritySelector>Priority: </label>
+                <input type="radio" id="high" name="prioritySelector" value="high">
+                <label for="high" class=prioritySelector>H</label>
+                <input type="radio" id="med" name="prioritySelector" value="med">
+                <label for="medium" class=prioritySelector>M</label>
+                <input checked="checked" type="radio" id="low" name="prioritySelector" value="low">
+                <label for="low" class=prioritySelector>L</label>
+            </div>
+            <button id="btnAdd">ADD TASK</button>
+
+            <ul id="newTasksH">
+                <!-- js insert -->
+            </ul>
+
+            <ul id="newTasksM">
+                <!-- js insert -->
+            </ul>
+
+            <ul id="newTasksL">
+                <!-- js insert -->
+            </ul>
+
+            <div id="completedTasksWrap">
+                <!-- <h3>Completed:</h3> -->
+            </div>
+        </div>
+
+
+        <script src="script.js"></script>
+    </body>
+
+</html>
