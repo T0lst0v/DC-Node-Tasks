@@ -8,7 +8,7 @@ const completedTasksWrap = document.getElementById("completedTasksWrap");
 const prioritySelectors = document.querySelectorAll('input[name="prioritySelector"]');
 // const priority = document.querySelector('input[name = "prioritySelector"]:checked').value;  //not working
 
-const baseApiUrl = process.env.PORT || 8080;
+const baseApiUrl = 8080;
 
 //getting tasks from the server
 async function getAllTasks() {
