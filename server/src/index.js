@@ -3,12 +3,21 @@
 //npm i nodemon
 //npm i cors //to run server and client
 
+const path = require("path");
 const express = require("express"); // import express into our app
 const app = express(); // returns a function that contains other functions
 const cors = require("cors");
 const session = require("express-session");
 
+// console.log(path.join(__dirname, "../../client"));
+// const indexPath = path.join(__dirname, "../../client");
+// console.log(indexPath);
 //initialize the session
+const indexPath = path.join(__dirname, "../client");
+console.log(indexPath);
+app.use(express.static(indexPath));
+app.use(cors());
+app.use(express.json());
 app.use(
   session({
     secret: "keyboard warrior",
@@ -17,9 +26,6 @@ app.use(
     // cookie: { secret: true },
   })
 );
-
-app.use(cors());
-app.use(express.json());
 
 const tasksArr = [];
 
@@ -100,7 +106,7 @@ app.post("/edited", (req, res) => {
 
 app.get("/", (req, res) => {
   // res.send("hello");
-  res.json(tasksArr);
+  res.render("index");
 });
 
 //posting to the sever , body of post(from user/client) passing values if it is matches request body
