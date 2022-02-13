@@ -32,9 +32,6 @@ router.post("/", (req, res) => {
   res.json(task);
 });
 
-console.log("tasksArr:");
-console.log(tasksArr);
-
 router.post("/edited", (req, res) => {
   const id = req.body.id;
   const title = req.body.title;

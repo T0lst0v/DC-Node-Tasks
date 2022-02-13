@@ -16,6 +16,7 @@ async function getAllTasks() {
     const response = await fetch(baseApiUrl);
 
     console.log("getting all ++++++");
+
     let tasks = await response.json();
 
     console.log("tasksArr:");
