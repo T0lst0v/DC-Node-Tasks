@@ -8,13 +8,19 @@ const completedTasksWrap = document.getElementById("completedTasksWrap");
 const prioritySelectors = document.querySelectorAll('input[name="prioritySelector"]');
 // const priority = document.querySelector('input[name = "prioritySelector"]:checked').value;  //not working
 
-const baseApiUrl = "/";
+const baseApiUrl = "/tasks";
 
 //getting tasks from the server
 async function getAllTasks() {
   try {
     const response = await fetch(baseApiUrl);
+
+    console.log("getting all ++++++");
+
     let tasks = await response.json();
+
+    console.log("tasksArr:");
+    console.log(tasks);
     return tasks;
   } catch (error) {
     // logic for when there is an error (ex. error toast)
@@ -46,7 +52,9 @@ async function displayFetchedTasks(arr) {
 
 // sending new task to the server
 async function postTask(t, p) {
+  console.log("task posting");
   try {
+    console.log("try posting");
     const response = await fetch(baseApiUrl, {
       method: "POST",
       headers: {
@@ -58,6 +66,8 @@ async function postTask(t, p) {
       }),
     });
     const task = await response.json();
+    console.log("responce: ");
+    console.log(task);
 
     // when the fetch is successful returns posted {task}+id, complete-false, date
     priorityGroup(p).insertAdjacentHTML("afterbegin", taskToHTML(task));
@@ -149,7 +159,7 @@ function selectedPriority() {
   }
 }
 
-//// EXECUTION
+//// EXECUTION:
 
 displayFetchedTasks(getAllTasks());
 
@@ -161,7 +171,7 @@ btnAdd.addEventListener("click", () => {
   }
 
   //posting to the server and receiving it back as object with extra fields(id..)
-  //sorted and placed at receiving and of the post
+  //sorted and placed at receiving end of the post
   postTask(taskTxt.value, selectedPriority());
 
   taskTxt.value = null; //clearing input field
