@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const tasksArr = [];
+
 console.log("___________");
 console.log(tasksArr);
 router.use(express.json());
@@ -12,7 +13,8 @@ function todayDate() {
 }
 
 router.get("/", (req, res) => {
-  res.render("index");
+  console.log("respond on get:");
+  res.json(tasksArr);
 });
 
 router.post("/", (req, res) => {
@@ -26,6 +28,7 @@ router.post("/", (req, res) => {
     id: Date.now(),
     complete: false,
   };
+
   console.log(task);
   tasksArr.push(task);
 

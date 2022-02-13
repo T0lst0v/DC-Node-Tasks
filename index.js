@@ -2,7 +2,7 @@ const path = require("path");
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const profileRoutes = require("./routes/profile");
+// const profileRoutes = require("./routes/profile");
 const tasksRoutes = require("./routes/tasks");
 const userRoutes = require("./routes/user");
 
@@ -29,7 +29,7 @@ app.use(
   })
 );
 
-app.use("/profile", profileRoutes);
+// app.use("/profile", profileRoutes);
 app.use("/tasks", tasksRoutes);
 app.use("/user", userRoutes);
 
