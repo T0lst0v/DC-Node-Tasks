@@ -37,9 +37,9 @@ async function displayFetchedTasks(arr) {
     return;
   }
   //formatting tasks to HTML
-  tasks.map((e) => {
+  tasks.map(async (e) => {
     console.log(e);
-    let taskHTML = taskToHTML(e);
+    let taskHTML = await taskToHTML(e);
     //if flagged(checkbox) as complete move to completedTasksWrap div
     if (e.complete) {
       completedTasksWrap.insertAdjacentHTML("afterbegin", taskHTML);
@@ -51,7 +51,7 @@ async function displayFetchedTasks(arr) {
 }
 
 // sending new task to the server
-async function postTask(t, p) {
+async function postTask(title, priority) {
   console.log("task posting");
   try {
     console.log("try posting");
@@ -61,8 +61,8 @@ async function postTask(t, p) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        title: t,
-        priority: p,
+        title: title,
+        priority: priority,
       }),
     });
     const task = await response.json();
@@ -70,7 +70,7 @@ async function postTask(t, p) {
     console.log(task);
 
     // when the fetch is successful returns posted {task}+id, complete-false, date
-    priorityGroup(p).insertAdjacentHTML("afterbegin", taskToHTML(task));
+    priorityGroup(priority).insertAdjacentHTML("afterbegin", await taskToHTML(task));
   } catch (error) {
     // enter your logic for when there is an error (ex. error toast)
 
@@ -130,16 +130,36 @@ async function postDeleteTask(id) {
   }
 }
 
+//  passing length (i) of fetched taskArray(if exists) to determine next index number
+// technically generateIndex() supposed to match fetched array[indexing]
+function* generateIndex(i) {
+  let id = i || 1;
+
+  while (true) {
+    yield id;
+    id++;
+  }
+}
+
 // formatting task object with HTML Tags
-function taskToHTML(task) {
-  return `
-  <li id=${task.id} class="task" draggable="true">
-  <label class="triangle ${task.priority}" ></label>
+async function taskToHTML(task) {
+  const taskArr = await getAllTasks();
+  let id = generateIndex(taskArr.length); //{id-1} - to start with 0 index
+  id = id.next().value;
+
+  const liTask = `
+  <li id=${task.id} class="task" data-index= ${id - 1} draggable="true"> 
+  <label class="triangle ${task.priority}"  ></label>
   <input type="checkbox" ${task.complete ? "checked" : "unchecked"} class="checkbox" onclick="ifChecked(event)">
   <label class="textField">${task.title}</label>
   <button class="editTask" onclick="editTask(event)">edit</button>
+ 
   <button class="deleteTask" onclick="deleteTask('${task.id}')">✕</button>
 </li>`;
+
+  addEventListeners();
+
+  return liTask;
 }
 
 // defining (ul) group to sort by priority
@@ -165,11 +185,14 @@ displayFetchedTasks(getAllTasks());
 
 btnAdd.addEventListener("click", () => {
   // if no input -> Red placeholder
-  if (taskTxt.value == 0) {
+  //FIXME: need to put reject on space input and min 3 symbols
+  if (taskTxt.value === "") {
     taskTxt.style.color = "red";
+
     return;
   }
-
+  console.log("no task");
+  console.log(taskTxt.value);
   //posting to the server and receiving it back as object with extra fields(id..)
   //sorted and placed at receiving end of the post
   postTask(taskTxt.value, selectedPriority());
@@ -208,4 +231,62 @@ function deleteTask(id) {
 
 function editTask(event) {
   console.log(event.target);
+}
+
+function addEventListeners() {
+  console.log("adding listeners");
+  const draggables = document.querySelectorAll(".task");
+  const dragListItem = document.querySelectorAll("#newTasksL li");
+
+  draggables.forEach((draggable) => {
+    draggable.addEventListener("dragstart", dragStart);
+  });
+
+  dragListItem.forEach((item) => {
+    console.log("for list-----");
+    item.addEventListener("dragenter", dragEnter);
+    item.addEventListener("dragover", dragOver);
+    item.addEventListener("drop", dragDrop);
+    item.addEventListener("dragleave", dragLeave);
+  });
+}
+
+function dragStart(ev) {
+  console.log("Event:", "dragStart");
+  const draggedTask = this;
+  console.log(draggedTask);
+  ev.dataTransfer.setData("text", ev.target.id);
+}
+function dragEnter() {
+  // console.log(this);
+
+  this.classList.add("over");
+}
+
+function dragLeave() {
+  this.classList.remove("over");
+}
+
+function dragOver(ev) {
+  this.classList.add("over");
+  ev.preventDefault();
+}
+
+function dragDrop(ev) {
+  console.log("Event:", "drag drop");
+  console.log(this);
+  const id = ev.dataTransfer.getData("text");
+  console.log("id=" + id);
+  console.log("dragged ");
+  console.log(document.getElementById(id));
+  console.log("instead of ");
+  console.log(this);
+
+  if (this != document.getElementById(id)) {
+    console.log("not SAME");
+    this.parentNode.insertBefore(document.getElementById(id), this);
+  }
+  console.log("Event:", "dragDrop");
+  this.classList.remove("over");
+  ev.preventDefault();
 }

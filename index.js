@@ -4,7 +4,7 @@ const app = express();
 const cors = require("cors");
 // const profileRoutes = require("./routes/profile");
 const tasksRoutes = require("./routes/tasks");
-const userRoutes = require("./routes/user");
+const userRoutes = require("./routes/users");
 
 const session = require("express-session");
 const hbs = require("hbs");
@@ -18,6 +18,7 @@ hbs.registerPartials("./views/partials");
 
 app.set("view engine", "hbs");
 
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(indexPath));
 app.use(cors());
 app.use(express.json());
@@ -31,7 +32,7 @@ app.use(
 
 // app.use("/profile", profileRoutes);
 app.use("/tasks", tasksRoutes);
-app.use("/user", userRoutes);
+app.use("/users", userRoutes);
 
 app.get("/", (req, res) => {
   res.render("index");

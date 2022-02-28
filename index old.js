@@ -9,6 +9,7 @@ const indexPath = path.join(__dirname, "public");
 // const PORT = process.env.PORT || 8080;
 const PORT = process.env.PORT || 3000;
 
+console.log("============");
 console.log(indexPath);
 
 hbs.registerPartials("./views/partials");
