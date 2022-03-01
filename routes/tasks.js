@@ -79,3 +79,11 @@ router.post("/delete", (req, res) => {
 });
 
 module.exports = router;
+
+/* 
+for tasks position change inside list, need to create index field in task list(ul)
+position in a list will be same as index starting with [0].
+if position will change new position will pass index to the task and that would be sended 
+to the server to change index in array, so all other elements will be updated with new
+array indexing  so when app will restart the position should match the browser positions 
+*/
