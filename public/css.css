@@ -267,7 +267,7 @@ h1 {
   background-color: cornflowerblue;
 }
 
-@media (max-width: 470px) {
+@media screen and (max-width: 470px) {
   .body {
     width: 320px;
   }
